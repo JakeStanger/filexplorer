@@ -48,7 +48,10 @@ Some things to note:
 ## Configuration
 
 - **basePath** - The absolute path to use as the root for the file browser.
-- **uploadPath** - The relative path from the root to upload pastes to.
-    - If you want to use this purely as a paste service, you can set this to `/`.
 - **port** - The port to serve on.
+- **allowUploads** - Whether uploading should be enabled. Disabling will cause `/upload` to `403`.
+- **uploadAuth** - An expected value for the `Authorization` header. 
+Leave blank to disable. When set, requests will `403` if the header does not match.
+- **uploadPath** - The relative path from the root to upload pastes to. 
+If you want to use this purely as a paste service, you can set this to `/`.
 - **maxUploadSize** - The maximum file size, in *bytes*, that can be uploaded.
