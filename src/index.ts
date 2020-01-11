@@ -142,7 +142,7 @@ app.post("/", upload.single("file"), async (req, res) => {
 
   return res
     .status(200)
-    .send(path.join(`${req.protocol}://${config.hostname}`, relPath));
+    .send(path.join(config.hostname, relPath));
 });
 
 app.listen(config.port);
