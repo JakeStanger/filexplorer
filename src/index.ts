@@ -140,9 +140,11 @@ app.post("/", upload.single("file"), async (req, res) => {
   const fullPath = path.join(config.basePath, relPath);
   fs.writeFileSync(fullPath, req.file.buffer);
 
+  console.log(config.hostname);
+
   return res
     .status(200)
-    .send(path.join(config.hostname, relPath));
+    .send(`${config.hostname}/${relPath}`);
 });
 
 app.listen(config.port);
