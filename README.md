@@ -8,6 +8,9 @@ and the other saves files to disk.
 The page rendering is achieved using server-side React to utilise modern web components while 
 still serving static pages. JavaScript is only required client-side for the copy to clipboard button.
 
+The idea for this very much came from [Deno](https://deno.land/) and [its file previewer](https://deno.land/std/examples/welcome.ts)
+which works in the same way, pretty much using the same libraries and frameworks ([repo here](https://github.com/denoland/deno_website2)).
+
 ## Features
 
 - Directory listings.
