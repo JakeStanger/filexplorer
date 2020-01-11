@@ -24,10 +24,10 @@ still serving static pages. JavaScript is only required client-side for the copy
 
 ## Uploading
 
-You can upload files to the server by posting on `/upload`. The server will return the URL to the file.
+You can upload files to the server by posting on `/`. The server will return the URL to the file.
 
 ```bash
-$ curl -F 'file=@01.rs' http://localhost:5000/upload
+$ curl -F 'file=@01.rs' http://localhost:5000
 http:/localhost:5000/pastes/d1713df8.rs
 ```
 
