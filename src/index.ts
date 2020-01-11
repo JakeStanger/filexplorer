@@ -125,7 +125,7 @@ app.get("*", (req, res) => {
 
   const componentString = ReactDom.renderToStaticMarkup(app);
 
-  return res.send(template({ element: componentString }));
+  return res.send(template({ element: componentString, title: path.basename(relPath) || '/' }));
 });
 
 app.post("/upload", upload.single("file"), async (req, res) => {
