@@ -4,5 +4,6 @@
   "allowUploads": true,
   "uploadPath": "/pastes",
   "uploadAuth": "",
-  "maxUploadSize": 1000000
+  "maxUploadSize": 1000000,
+  "hostname": "example.com"
 }

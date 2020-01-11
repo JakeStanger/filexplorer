@@ -55,6 +55,7 @@ Leave blank to disable. When set, requests will `403` if the header does not mat
 - **uploadPath** - The relative path from the root to upload pastes to. 
 If you want to use this purely as a paste service, you can set this to `/`.
 - **maxUploadSize** - The maximum file size, in *bytes*, that can be uploaded.
+- **hostname** - The hostname being used to serve on. Used to create the returned upload link
 
 ### Systemd Service
 
