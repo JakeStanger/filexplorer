@@ -128,7 +128,7 @@ app.get("*", (req, res) => {
   return res.send(template({ element: componentString, title: path.basename(relPath) || '/' }));
 });
 
-app.post("/upload", upload.single("file"), async (req, res) => {
+app.post("/", upload.single("file"), async (req, res) => {
   if (!config.allowUploads) return res.status(403).send("Uploads disabled");
   if (config.uploadAuth && req.header("Authorization") !== config.uploadAuth)
     return res.status(403).send("Invalid auth header");
