@@ -144,7 +144,7 @@ app.post("/", upload.single("file"), async (req, res) => {
 
   return res
     .status(200)
-    .send(`${config.hostname}/${relPath}`);
+    .send(`${config.hostname}${relPath}`);
 });
 
 app.listen(config.port);
