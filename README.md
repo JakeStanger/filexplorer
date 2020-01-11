@@ -31,7 +31,7 @@ You can upload files to the server by posting on `/`. The server will return the
 
 ```bash
 $ curl -F 'file=@01.rs' http://localhost:5000
-http:/localhost:5000/pastes/d1713df8.rs
+http://localhost:5000/pastes/d1713df8.rs
 ```
 
 Some things to note:
