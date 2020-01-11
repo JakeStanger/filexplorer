@@ -20,6 +20,8 @@ still serving static pages. JavaScript is only required client-side for the copy
 - Only serves HTML to browsers - if `text/html` is not explicitly in the requested mimetypes, the raw file is provided.
 - Saves uploaded files to a designated folder.
 
+![screenshot](https://f.jstanger.dev/github/filebrowser/screenshot.png)
+
 ## Installation
 
 - Clone this repo
