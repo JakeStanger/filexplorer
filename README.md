@@ -17,7 +17,7 @@ still serving static pages. JavaScript is only required client-side for the copy
 - File types without special treatment (such as binary files) are served raw by the browser.
 - Ability to view and download raw from browser.
 - Ability to copy text to clipboard using `clipboard.js`.
-- Only serves HTML to browsers - if `text/html` is not explicitly in the requested mimetypes, the raw file is provided.
+- Only serves HTML to browsers - if `text/html` is not explicitly in the requested mime types, the raw file is provided.
 - Saves uploaded files to a designated folder.
 
 ![screenshot](https://f.jstanger.dev/github/filebrowser/screenshot.png)
