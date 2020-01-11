@@ -1,0 +1,51 @@
+.container {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a {
+  text-decoration: none;
+  color: #2196f3;
+}
+a:hover {
+  color: #0c7cd5;
+}
+
+.breadcrumbs {
+  display: flex;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+}
+.breadcrumbs .crumb {
+  margin-right: 15px;
+}
+
+.table {
+  display: grid;
+}
+.table.directory {
+  grid-template-columns: 2fr repeat(3, 1fr);
+}
+.table .header {
+  font-size: 1.2rem;
+}
+.table > div {
+  padding: 4px;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.file-controls {
+  display: flex;
+}
+.file-controls .control {
+  margin-right: 15px;
+}
+
+/*# sourceMappingURL=index.css.map */

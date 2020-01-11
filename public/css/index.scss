@@ -1,0 +1,55 @@
+.container {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a {
+  text-decoration: none;
+  color: #2196f3;
+
+  &:hover {
+    color: darken(#2196f3, 10%);
+  }
+}
+
+.breadcrumbs {
+  display: flex;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+
+  .crumb {
+     margin-right: 15px;
+  }
+}
+
+.table {
+  display: grid;
+
+  &.directory {
+    grid-template-columns: 2fr repeat(3, 1fr);
+  }
+
+  .header {
+    font-size: 1.2rem;
+  }
+
+  > div {
+    padding: 4px;
+  }
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.file-controls {
+  display: flex;
+
+  .control {
+    margin-right: 15px;
+  }
+}

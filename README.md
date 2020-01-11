@@ -1,44 +1,52 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Filebrowser
 
-## Available Scripts
+A web based file browser and pastebin-like service, with a lightweight front-end.
 
-In the project directory, you can run:
+This is a small Express server with two endpoints. One serves the files and directory listings,
+and the other saves files to disk. 
 
-### `yarn start`
+The page rendering is achieved using server-side React to utilise modern web components while 
+still serving static pages. JavaScript is only required client-side for the copy to clipboard button.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Features
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- Directory listings.
+- Renders markdown files using `react-markdown`.
+- Syntax highlights text files using `highlight.js`.
+- Renders images.
+- File types without special treatment (such as binary files) are served raw by the browser.
+- Ability to view and download raw from browser.
+- Ability to copy text to clipboard using `clipboard.js`.
+- Only serves HTML to browsers - if `text/html` is not explicitly in the requested mimetypes, the raw file is provided.
+- Saves uploaded files to a designated folder.
 
-### `yarn test`
+## Installation
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Clone this repo
+- Copy `config.example.json` as `config.json` and tweak the values to your needs.
+- Run `yarn install` to install dependencies.
+- Run `yarn build` to compile the TypeScript.
+    - You can use `yarn start` to test with. This will rebuild before starting.
 
-### `yarn build`
+## Uploading
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+You can upload files to the server by posting on `/upload`. The server will return the URL to the file.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+```bash
+$ curl -F 'file=@01.rs' http://localhost:5000/upload
+http:/localhost:5000/pastes/d1713df8.rs
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Some things to note:
 
-### `yarn eject`
+- The request body is ignored. You must upload a file as form data.
+- The file must be uploaded using the form key `file`.
+- Only one file can be uploaded at a time.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Configuration
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **basePath** - The absolute path to use as the root for the file browser.
+- **uploadPath** - The relative path from the root to upload pastes to.
+    - If you want to use this purely as a paste service, you can set this to `/`.
+- **port** - The port to serve on.
+- **maxUploadSize** - The maximum file size, in *bytes*, that can be uploaded.
