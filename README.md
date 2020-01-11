@@ -12,7 +12,7 @@ still serving static pages. JavaScript is only required client-side for the copy
 
 - Directory listings.
 - Renders markdown files using `react-markdown`.
-- Syntax highlights text files using `highlight.js`.
+- Syntax highlights text files using `react-syntax-highlighter` with `highlight.js`.
 - Renders images.
 - File types without special treatment (such as binary files) are served raw by the browser.
 - Ability to view and download raw from browser.
