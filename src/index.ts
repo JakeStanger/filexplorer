@@ -129,8 +129,12 @@ app.get("*", (req, res) => {
 });
 
 app.post("/upload", upload.single("file"), async (req, res) => {
+  if (!config.allowUploads) return res.status(403).send("Uploads disabled");
+  if (config.uploadAuth && req.header("Authorization") !== config.uploadAuth)
+    return res.status(403).send("Invalid auth header");
+
   const extension = path.extname(req.file.originalname);
-  const filename = crypto.randomBytes(4).toString('hex') + extension;
+  const filename = crypto.randomBytes(4).toString("hex") + extension;
 
   const relPath = path.join(config.uploadPath, filename);
   const fullPath = path.join(config.basePath, relPath);
