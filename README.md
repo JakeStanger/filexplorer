@@ -22,14 +22,6 @@ still serving static pages. JavaScript is only required client-side for the copy
 
 ![screenshot](https://f.jstanger.dev/github/filebrowser/screenshot.png)
 
-## Installation
-
-- Clone this repo
-- Copy `config.example.json` as `config.json` and tweak the values to your needs.
-- Run `yarn install` to install dependencies.
-- Run `yarn build` to compile the TypeScript.
-    - You can use `yarn start` to test with. This will rebuild before starting.
-
 ## Uploading
 
 You can upload files to the server by posting on `/upload`. The server will return the URL to the file.
@@ -45,7 +37,15 @@ Some things to note:
 - The file must be uploaded using the form key `file`.
 - Only one file can be uploaded at a time.
 
-## Configuration
+## Installation
+
+- Clone this repo
+- Copy `config.example.json` as `config.json` and tweak the values to your needs.
+- Run `yarn install` to install dependencies.
+- Run `yarn build` to compile the TypeScript.
+    - You can use `yarn start` to test with. This will rebuild before starting.
+
+### Configuration
 
 - **basePath** - The absolute path to use as the root for the file browser.
 - **port** - The port to serve on.
@@ -55,3 +55,52 @@ Leave blank to disable. When set, requests will `403` if the header does not mat
 - **uploadPath** - The relative path from the root to upload pastes to. 
 If you want to use this purely as a paste service, you can set this to `/`.
 - **maxUploadSize** - The maximum file size, in *bytes*, that can be uploaded.
+
+### Systemd Service
+
+If you want to run the server in the background and are using a systemd-based Linux distro this should help:
+
+```ini
+[Unit]
+Description="NodeJS filebrowser"
+Requires=network.target
+
+[Service]
+ExecStart=/usr/bin/node /path/to/repo
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=filebrowser
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### Nginx configuration
+
+If you want to make the server publically available, you should use a reverse proxy. If you are
+using Nginx, the following should work:
+
+> Of course you will need to change the root, server name, SSL certs and proxy port.
+
+```nginx
+server {
+  listen 443;
+  listen [::]:443;
+
+  root /path/to/repo/public;
+
+  server_name example.com;
+
+  ssl_certificate /path/to/fullchain.pem;
+  ssl_certificate_key /path/to/privkey.pem;
+
+  location / {
+    proxy_pass http://localhost:5000;
+  }
+
+  location ~ ^(/js)|(/css) {
+     # do not proxy public js and css 
+  }
+}
+```
