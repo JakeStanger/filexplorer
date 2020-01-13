@@ -22,6 +22,7 @@ which works in the same way, pretty much using the same libraries and frameworks
 - Ability to copy text to clipboard using `clipboard.js`.
 - Only serves HTML to browsers - if `text/html` is not explicitly in the requested mime types, the raw file is provided.
 - Saves uploaded files to a designated folder.
+- No huge front-end frameworks - client-side JS is only required for copy button.
 
 ![screenshot](https://f.jstanger.dev/github/filebrowser/screenshot.png)
 
