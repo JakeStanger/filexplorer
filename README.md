@@ -71,6 +71,7 @@ Description="NodeJS filebrowser"
 Requires=network.target
 
 [Service]
+WorkingDirectory=/path/to/repo
 ExecStart=/usr/bin/node /path/to/repo
 Restart=always
 StandardOutput=syslog
