@@ -1,9 +1,0 @@
-{
-  "basePath": "/var/www/html",
-  "port": 5000,
-  "allowUploads": true,
-  "uploadPath": "/pastes",
-  "uploadAuth": "",
-  "maxUploadSize": 1000000,
-  "hostname": "https://example.com"
-}

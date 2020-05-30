@@ -44,22 +44,42 @@ Some things to note:
 ## Installation
 
 - Clone this repo
-- Copy `config.example.json` as `config.json` and tweak the values to your needs.
+- Copy `.env.example` as `.env` and tweak/fill in the values to your needs. 
+    See the configuration section below for more information. 
+    The environment variables can of course also be provided directly.
 - Run `yarn install` to install dependencies.
 - Run `yarn build` to compile the TypeScript.
     - You can use `yarn start` to test with. This will rebuild before starting.
 
 ### Configuration
 
-- **basePath** - The absolute path to use as the root for the file browser.
-- **port** - The port to serve on.
-- **allowUploads** - Whether uploading should be enabled. Disabling will cause POST requests to `403`.
-- **uploadAuth** - An expected value for the `Authorization` header. 
-Leave blank to disable. When set, requests will `403` if the header does not match.
-- **uploadPath** - The relative path from the root to upload pastes to. 
-If you want to use this purely as a paste service, you can set this to `/`.
-- **maxUploadSize** - The maximum file size, in *bytes*, that can be uploaded.
-- **hostname** - The hostname *including protocol* being used to serve on. Used to create the returned upload link
+The app is configured using environment variables. `dotenv` is installed, meaning a `.env` file can optionally be used.
+Below is the contents of the `.env.example`:
+
+```dotenv
+# The public address for the server.
+# This is used to respond to upload requests with the file link.
+HOSTNAME=""
+
+# The port to use for serving
+PORT=5000
+
+# The path on disk to serve from
+ROOT_PATH=""
+
+# Whether to allow post requests on '/' to upload files.
+ALLOW_UPLOADS=true
+
+# The relative directory to upload files to
+UPLOAD_PATH="/pastes"
+
+# The expected `Authorization` header in order to upload files.
+# Leave blank to allow public uploads
+UPLOAD_AUTH=""
+
+# The maximum size of a file, in bytes
+MAX_UPLOAD_SIZE=1000000
+```
 
 ### Systemd Service
 

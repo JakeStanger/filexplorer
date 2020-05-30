@@ -13,10 +13,9 @@ import { lookup } from "mime-types";
 import { isTextSync } from "istextorbinary";
 import CodeBlock from "./components/codeBlock/CodeBlock";
 import Markdown from "./components/markdown/Markdown";
+import * as dotenv from "dotenv";
 
-const config = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "../", "config.json")).toString()
-);
+dotenv.config();
 
 function loggerMiddleware(
   request: express.Request,
@@ -28,12 +27,12 @@ function loggerMiddleware(
 }
 
 const app = express();
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "../", "public")));
 app.use(loggerMiddleware);
 
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fieldSize: config.maxUploadSize }
+  limits: { fieldSize: parseInt(process.env.MAX_UPLOAD_SIZE) }
 });
 
 const templateString = fs
@@ -57,7 +56,7 @@ function getDirectoryListings(fullPath: string): IFileSystemObject[] {
 
 app.get("*", (req, res) => {
   const relPath = decodeURIComponent(req.path);
-  const fullPath = path.join(config.basePath, relPath);
+  const fullPath = path.join(process.env.ROOT_PATH, relPath);
 
   if (!fs.existsSync(fullPath)) return res.status(404).send("Not found");
 
@@ -125,24 +124,28 @@ app.get("*", (req, res) => {
 
   const componentString = ReactDom.renderToStaticMarkup(app);
 
-  return res.send(template({ element: componentString, title: path.basename(relPath) || '/' }));
+  return res.send(
+    template({ element: componentString, title: path.basename(relPath) || "/" })
+  );
 });
 
 app.post("/", upload.single("file"), async (req, res) => {
-  if (!config.allowUploads) return res.status(403).send("Uploads disabled");
-  if (config.uploadAuth && req.header("Authorization") !== config.uploadAuth)
+  if (process.env.ALLOW_UPLOADS === "false")
+    return res.status(403).send("Uploads disabled");
+  if (
+    process.env.UPLOAD_AUTH &&
+    req.header("Authorization") !== process.env.UPLOAD_AUTH
+  )
     return res.status(403).send("Invalid auth header");
 
   const extension = path.extname(req.file.originalname);
   const filename = crypto.randomBytes(4).toString("hex") + extension;
 
-  const relPath = path.join(config.uploadPath, filename);
-  const fullPath = path.join(config.basePath, relPath);
+  const relPath = path.join(process.env.UPLOAD_PATH, filename);
+  const fullPath = path.join(process.env.ROOT_PATH, relPath);
   fs.writeFileSync(fullPath, req.file.buffer);
 
-  return res
-    .status(200)
-    .send(`${config.hostname}${relPath}`);
+  return res.status(200).send(`${process.env.HOSTNAME}${relPath}`);
 });
 
-app.listen(config.port);
+app.listen(process.env.PORT);
