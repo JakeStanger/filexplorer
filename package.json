@@ -2,6 +2,9 @@
   "name": "filebrowser",
   "version": "1.0.0",
   "main": "dist/index.js",
+  "bin": {
+    "filebrowser": "dist/index.js"
+  },
   "author": "Jake Stanger <mail@jstanger.dev>",
   "license": "MIT",
   "scripts": {
