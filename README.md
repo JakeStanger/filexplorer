@@ -50,6 +50,17 @@ Some things to note:
 - Run `yarn install` to install dependencies.
 - Run `yarn build` to compile the TypeScript.
     - You can use `yarn start` to test with. This will rebuild before starting.
+    
+### Docker
+
+A [Docker image](https://hub.docker.com/r/jakestanger/filebrowser) is included if you would prefer to deploy the app that way:
+
+```bash
+docker run -d \
+  -p 5000:5000 \
+  -v /path/to/files:/var/www/filebrowser \
+  jakestanger/filebrowser
+```
 
 ### Configuration
 
@@ -57,10 +68,6 @@ The app is configured using environment variables. `dotenv` is installed, meanin
 Below is the contents of the `.env.example`:
 
 ```dotenv
-# The public address for the server.
-# This is used to respond to upload requests with the file link.
-HOSTNAME=""
-
 # The port to use for serving
 PORT=5000
 
@@ -104,10 +111,10 @@ WantedBy=multi-user.target
 
 ### Nginx configuration
 
-If you want to make the server publically available, you should use a reverse proxy. If you are
+If you want to make the server publicly available, you should use a reverse proxy. If you are
 using Nginx, the following should work:
 
-> Of course you will need to change the root, server name, SSL certs and proxy port.
+> You will need to change the root, server name, SSL certs and proxy port.
 
 ```nginx
 server {
@@ -126,7 +133,7 @@ server {
   }
 
   location ~ ^(/js)|(/css) {
-     # do not proxy public js and css 
+     # empty block required to avoid proxying js and css
   }
 }
 ```
