@@ -1,4 +1,5 @@
 import * as express from "express";
+import * as morgan from "morgan";
 import * as ReactDom from "react-dom/server";
 import * as React from "react";
 import * as fs from "fs";
@@ -18,18 +19,9 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-function loggerMiddleware(
-  request: express.Request,
-  response: express.Response,
-  next
-) {
-  console.log(`${request.method} ${request.path}`);
-  next();
-}
-
 const app = express();
 app.use(express.static(path.join(__dirname, "../", "public")));
-app.use(loggerMiddleware);
+app.use( morgan('short'));
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -152,3 +144,4 @@ app.post("/", upload.single("file"), async (req, res) => {
 });
 
 app.listen(process.env.PORT);
+console.log("filebrowser started on port " + process.env.PORT);
