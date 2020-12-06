@@ -3,6 +3,7 @@ import * as ReactDom from "react-dom/server";
 import * as React from "react";
 import * as fs from "fs";
 import * as path from "path";
+import * as mkdirp from 'mkdirp';
 import * as handlebars from "handlebars";
 import * as multer from "multer";
 import * as crypto from "crypto";
@@ -143,6 +144,8 @@ app.post("/", upload.single("file"), async (req, res) => {
 
   const relPath = path.join(process.env.UPLOAD_PATH, filename);
   const fullPath = path.join(process.env.ROOT_PATH, relPath);
+
+  mkdirp.sync(path.dirname(fullPath));
   fs.writeFileSync(fullPath, req.file.buffer);
 
   return res.status(200).send(`${process.env.HOSTNAME}${relPath}`);
