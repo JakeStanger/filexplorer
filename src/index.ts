@@ -1,5 +1,6 @@
 import * as express from "express";
 import * as morgan from "morgan";
+import * as cors from "cors";
 import * as ReactDom from "react-dom/server";
 import * as React from "react";
 import * as fs from "fs";
@@ -23,6 +24,7 @@ dotenv.config();
 const app = express();
 app.use(express.static(path.join(__dirname, "../", "public")));
 app.use( morgan('short'));
+app.use(cors());
 
 const upload = multer({
   storage: multer.memoryStorage(),
