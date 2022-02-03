@@ -74,8 +74,9 @@ app.get("*", (req, res) => {
     if (
       req.accepts().indexOf("text/html") === -1 ||
       (req.query && req.query["raw"] != undefined)
-    )
-      return res.sendFile(fullPath);
+    ) {
+      return res.sendFile(relPath, { root: process.env.ROOT_PATH });
+    }
 
     if (req.query["download"] != undefined) return res.download(fullPath);
 
@@ -87,6 +88,7 @@ app.get("*", (req, res) => {
     const MAX_TEXT_SIZE = 5 * 1_000_000; // 5 MB
     if (isText && stat.size < MAX_TEXT_SIZE) {
       content = contentBuffer.toString();
+
       if (mimeType !== "text/markdown") {
         const MAX_HIGHLIGHT_SIZE = 200 * 1000; // 200 kB;
 
