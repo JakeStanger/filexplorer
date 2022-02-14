@@ -50,8 +50,11 @@ function getDirectoryListings(fullPath: string): IFileSystemObject[] {
   });
 }
 
-app.get("*", (req, res) => {
-  const relPath = decodeURIComponent(req.path);
+const BASE_URL = process.env.BASE_URL ?? "/";
+
+app.get(`${BASE_URL}*`, (req, res) => {
+  const relUrl = decodeURIComponent(req.path);
+  const relPath = relUrl.substring(BASE_URL.length);
   const fullPath = path.join(process.env.ROOT_PATH, relPath);
 
   if (!fs.existsSync(fullPath)) return res.status(404).send("Not found");
@@ -66,7 +69,7 @@ app.get("*", (req, res) => {
     const contents: IFileSystemObject[] = getDirectoryListings(fullPath);
 
     element = React.createElement(DirectoryList, {
-      relPath,
+      relPath: relUrl,
       contents
     });
   } else {
@@ -109,14 +112,14 @@ app.get("*", (req, res) => {
       }
     } else {
       if (mimeType.indexOf("image/") > -1) {
-        element = React.createElement("img", { src: relPath });
+        element = React.createElement("img", { src: relUrl });
       } else return res.sendFile(fullPath);
     }
   }
 
   const app = React.createElement(
     App,
-    { relPath, content, isDirectory },
+    { relPath: relUrl, content, isDirectory },
     element
   );
 
@@ -136,17 +139,23 @@ app.post("/", upload.single("file"), async (req, res) => {
   )
     return res.status(403).send("Invalid auth header");
 
+
+  if(!req.file) {
+    return res.status(400).send("Missing file");
+  }
+
   const extension = path.extname(req.file.originalname);
   const filename = crypto.randomBytes(4).toString("hex") + extension;
 
-  const relPath = path.join(process.env.UPLOAD_PATH, filename);
+  const relPath= path.join(process.env.UPLOAD_PATH, filename);
+  const relUrl = path.join(BASE_URL, relPath);
   const fullPath = path.join(process.env.ROOT_PATH, relPath);
 
   mkdirp.sync(path.dirname(fullPath));
   fs.writeFileSync(fullPath, req.file.buffer);
 
-  const host = request.headers.host ?? `http://localhost:${process.env.PORT}`;
-  return res.status(200).send(`${host}${relPath}`);
+  const host = request.headers?.host ?? `http://localhost:${process.env.PORT}`;
+  return res.status(200).send(`${host}${relUrl}`);
 });
 
 app.listen(process.env.PORT);
