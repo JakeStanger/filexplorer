@@ -10,7 +10,7 @@
   "scripts": {
     "build": "yarn tsc",
     "start": "node dist",
-    "prestart": "yarn build"
+    "start:dev": "ts-node src"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -43,6 +43,7 @@
     "@types/react-syntax-highlighter": "^11.0.4",
     "eslint": "^6.8.0",
     "prettier": "^1.19.1",
-    "typescript": "^3.7.4"
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
   }
 }
