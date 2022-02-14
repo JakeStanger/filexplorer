@@ -16,4 +16,4 @@ RUN mkdir -p /var/www/filebrowser
 
 EXPOSE 5000
 
-ENTRYPOINT ["node", "dist"]
+ENTRYPOINT ["yarn", "start"]
