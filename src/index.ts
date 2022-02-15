@@ -21,8 +21,10 @@ import { request } from "express";
 
 dotenv.config();
 
+const BASE_URL = process.env.BASE_URL ?? "/";
+
 const app = express();
-app.use(express.static(path.join(__dirname, "../", "public")));
+app.use(BASE_URL, express.static(path.join(__dirname, "../", "public"))); // FIXME: Doesn't work with different base URL or nginx problem
 app.use( morgan('short'));
 app.use(cors());
 
@@ -49,8 +51,6 @@ function getDirectoryListings(fullPath: string): IFileSystemObject[] {
     };
   });
 }
-
-const BASE_URL = process.env.BASE_URL ?? "/";
 
 app.get(`${BASE_URL}*`, (req, res) => {
   const relUrl = decodeURIComponent(req.path);
@@ -126,7 +126,7 @@ app.get(`${BASE_URL}*`, (req, res) => {
   const componentString = ReactDom.renderToStaticMarkup(app);
 
   return res.send(
-    template({ element: componentString, title: path.basename(relPath) || "/" })
+    template({ element: componentString, title: path.basename(relPath) || "/", BASE_URL })
   );
 });
 

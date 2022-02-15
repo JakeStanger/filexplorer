@@ -3,11 +3,11 @@
   <head>
     <title>{{title}} | filebrowser</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/css/index.css" />
+    <link rel="stylesheet" type="text/css" href="{{BASE_URL}}/css/index.css" />
   </head>
   <body>
     <div class="container">{{{element}}}</div>
-    <script src="/js/clipboard.min.js"></script>
+    <script src="{{BASE_URL}}/js/clipboard.min.js"></script>
     <script>
       const clipboard = new ClipboardJS(".copy-btn");
       clipboard.on('success', e => {
