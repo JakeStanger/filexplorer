@@ -86,6 +86,9 @@ UPLOAD_AUTH=""
 
 # The maximum size of a file, in bytes
 MAX_UPLOAD_SIZE=1000000
+
+# The URL path the server is being hosted from
+BASE_URL="/"
 ```
 
 ### Systemd Service
