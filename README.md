@@ -133,10 +133,20 @@ server {
 
   location / {
     proxy_pass http://localhost:5000;
+    proxy_set_header Host $host;
   }
 
   location ~ ^(/js)|(/css) {
      # empty block required to avoid proxying js and css
+     # proxying works but may degrade performance
   }
 }
 ```
+
+### Cloudflare
+
+Cloudflare's caching can cause issues, since filebrowser does some very non-standard things 
+and delivers both HTML and raw content on the same endpoint.
+
+Caching must be disabled for the instance. 
+This can either be done domain-wide, or on a specific subdomain/path using a page rule.
