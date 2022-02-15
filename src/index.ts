@@ -154,7 +154,7 @@ app.post(BASE_URL, upload.single("file"), async (req, res) => {
   mkdirp.sync(path.dirname(fullPath));
   fs.writeFileSync(fullPath, req.file.buffer);
 
-  const host = request.headers?.host ?? `http://localhost:${process.env.PORT}`;
+  const host = request.headers?.host ?? process.env.DEFAULT_HOST ?? `http://localhost:${process.env.PORT}`;
   return res.status(200).send(`${host}${relUrl}`);
 });
 
