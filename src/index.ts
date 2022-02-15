@@ -130,7 +130,7 @@ app.get(`${BASE_URL}*`, (req, res) => {
   );
 });
 
-app.post("/", upload.single("file"), async (req, res) => {
+app.post(BASE_URL, upload.single("file"), async (req, res) => {
   if (process.env.ALLOW_UPLOADS === "false")
     return res.status(403).send("Uploads disabled");
   if (
