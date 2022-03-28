@@ -5,7 +5,7 @@ interface IFileSystemObject {
   permissions: number; // Convert to octal to see
   created: Date;
   modified: Date;
-
+  hidden: boolean;
 }
 
 export default IFileSystemObject;

@@ -41,13 +41,15 @@ const template = handlebars.compile(templateString);
 function getDirectoryListings(fullPath: string): IFileSystemObject[] {
   return fs.readdirSync(fullPath).map(p => {
     const pStat = fs.lstatSync(path.join(fullPath, p));
+
     return {
       name: p,
       size: pStat.size,
       isDirectory: pStat.isDirectory(),
       permissions: pStat.mode,
       created: pStat.ctime,
-      modified: pStat.mtime
+      modified: pStat.mtime,
+      hidden: /(^|\/)\.[^\/.]/g.test(p)
     };
   });
 }
@@ -66,7 +68,7 @@ app.get(`${BASE_URL}*`, (req, res) => {
   let content;
   const isDirectory = stat.isDirectory();
   if (isDirectory) {
-    const contents: IFileSystemObject[] = getDirectoryListings(fullPath);
+    const contents: IFileSystemObject[] = getDirectoryListings(fullPath).filter(p => !p.hidden);
 
     element = React.createElement(DirectoryList, {
       relPath: relUrl,
