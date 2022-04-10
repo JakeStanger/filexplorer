@@ -77,6 +77,9 @@ ROOT_PATH=""
 # Whether to allow post requests on '/' to upload files.
 ALLOW_UPLOADS=true
 
+# Set the below to anything to disable directory listing
+DISABLE_DIR_LISTINGS=""
+
 # The relative directory to upload files to
 UPLOAD_PATH="/pastes"
 

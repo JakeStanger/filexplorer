@@ -68,6 +68,10 @@ app.get(`${BASE_URL}*`, (req, res) => {
   let content;
   const isDirectory = stat.isDirectory();
   if (isDirectory) {
+    if(process.env.DISABLE_DIR_LISTINGS) {
+      return res.status(403).send("Forbidden");
+    }
+
     const contents: IFileSystemObject[] = getDirectoryListings(fullPath).filter(p => !p.hidden);
 
     element = React.createElement(DirectoryList, {
