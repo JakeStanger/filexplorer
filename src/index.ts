@@ -165,4 +165,4 @@ app.post(BASE_URL, upload.single("file"), async (req, res) => {
 });
 
 app.listen(process.env.PORT);
-console.log("filebrowser started on port " + process.env.PORT);
+console.log(`filebrowser started on http://localhost:${process.env.PORT}`);
