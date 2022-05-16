@@ -21,7 +21,7 @@ import { request } from "express";
 
 dotenv.config();
 
-const BASE_URL = process.env.BASE_URL ?? "/";
+const BASE_URL = process.env.BASE_URL ?? "";
 
 const app = express();
 app.use(BASE_URL, express.static(path.join(__dirname, "../", "public"))); // FIXME: Doesn't work with different base URL or nginx problem
