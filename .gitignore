@@ -1,0 +1,36 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+lambda/node_modules
+
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+
+# production
+/build
+/public/sitemap.xml
+/lambda/lib
+/lambda/function.zip
+
+# misc
+.DS_Store
+.env*
+!.env.example
+scripts/*.json
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Sentry
+.sentryclirc
+
+*.load

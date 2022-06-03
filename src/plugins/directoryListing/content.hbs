@@ -1,0 +1,15 @@
+<ul class='breadcrumbs'>
+  <li><a href='/'>/</a></li>
+  {{#each breadcrumbs}}
+    <li>
+      <a href='{{url}}'>{{name}}</a>
+    </li>
+  {{/each}}
+</ul>
+<table class='items'>
+  {{#each items}}
+    <a href='{{url}}'>{{name}}</a>
+    <div></div>
+    <div></div>
+  {{/each}}
+</table>
