@@ -1,5 +1,7 @@
 # Filebrowser
 
+> ⚠ This is the old version of the package which is no longer maintained. The new version (filexplorer) has been re-written from the ground up and can be found on the [v2 branch](https://github.com/JakeStanger/filebrowser).
+
 A web based file browser and pastebin-like service, with a lightweight front-end.
 
 This is a small Express server with two endpoints. One serves the files and directory listings,
