@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "ES2022",
+    "module": "esnext",
     "target": "es2018",
     "moduleResolution": "node",
     "sourceMap": true,
@@ -10,7 +10,8 @@
     "baseUrl": "./src",
     "jsx": "react",
     "esModuleInterop": true,
-    "strict": true
+    "strict": true,
+    "resolveJsonModule": true
   },
   "exclude": [
     "node_modules",

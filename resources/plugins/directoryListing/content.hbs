@@ -1,0 +1,22 @@
+<table class='items'>
+  <thead style='display: contents;'>
+    <tr style='display: contents;'>
+      <th>Name</th>
+      <th>Size</th>
+      <th>Created</th>
+      <th>Modified</th>
+    </tr>
+  </thead>
+  <tbody style='display: contents;'>
+    {{#each items}}
+      <tr style='display: contents;'>
+        <td>
+          <a href='{{url}}'>{{name}}</a>
+        </td>
+        <td>{{size}}</td>
+        <td>{{created}}</td>
+        <td>{{modified}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

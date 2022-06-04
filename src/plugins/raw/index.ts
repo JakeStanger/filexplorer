@@ -1,24 +1,30 @@
-import { Plugin, PluginManager } from '../../pluginManager.js';
-import { getSystemPath, stat } from '../../utils.js';
-import { promises as fs } from 'fs';
+import { MiddlewarePlugin, PluginManager } from '../../pluginManager.js';
 import mime from 'mime-types';
 import path from 'path';
+import { isText } from 'istextorbinary';
+import express from 'express';
+import { readFileSync, Stats } from 'fs';
 
-const raw: Plugin<'raw'> = async (req, res, next, config) => {
-  const systemPath = getSystemPath(req, config);
+const MAX_TEXT_SIZE = 10 * 1024 * 1024; // 10MB
 
-  const isFile = await stat(systemPath).then((stat) => stat?.isFile());
-
-  if (!isFile) return next();
-
-  const contents = await fs.readFile(systemPath);
-
-  const contentType = mime.contentType(path.basename(systemPath));
-  if(contentType) {
-    res.setHeader('Content-Type', contentType);
-  }
-
-  res.send(contents);
+const raw: MiddlewarePlugin<'raw'> = async ({ req, res, next, config }) => {
+  return express.static(config.serveDirectory, {
+    setHeaders: (res, systemPath, stats: Stats) => {
+      let contentType = mime.contentType(path.basename(req.path));
+      if (!contentType) {
+        if (stats.size < MAX_TEXT_SIZE) {
+          // express does not support async here
+          const buffer = readFileSync(systemPath);
+          contentType = isText(null, buffer)
+            ? 'text/plain'
+            : 'application/octet-stream';
+        } else {
+          contentType = 'application/octet-stream';
+        }
+      }
+      res.setHeader('Content-Type', contentType);
+    },
+  })(req, res, next);
 };
 
-PluginManager.get().registerMiddleware(raw, 'raw');
+PluginManager.register('raw').withMiddleware(raw);

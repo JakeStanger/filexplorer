@@ -1,38 +1,68 @@
 {
-  "name": "filebrowser2",
-  "version": "1.0.0",
+  "name": "filexplorer",
+  "version": "2.0.2",
   "main": "index.js",
   "license": "MIT",
   "type": "module",
+  "bin": {
+    "fe": "./lib/cli.js"
+  },
+  "files": [
+    "public",
+    "resources",
+    "lib",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "clean": "rm -rf lib",
     "build": "tsc",
-    "postbuild": "copyfiles ",
-    "run": "node --experimental-wasm-modules --experimental-import-meta-resolve lib"
+    "start": "node --experimental-wasm-modules --experimental-import-meta-resolve lib"
   },
   "dependencies": {
-    "cornfig-wasm": "^0.2.2",
+    "args": "^5.0.3",
+    "chalk": "^5.0.1",
+    "cornfig-wasm": "^0.2.3",
+    "cors": "^2.8.5",
+    "cuid": "^2.1.8",
     "express": "^4.18.1",
     "handlebars": "^4.7.7",
+    "highlight.js": "^11.5.1",
+    "istextorbinary": "^6.0.0",
+    "luxon": "^2.4.0",
+    "marked": "^4.0.16",
     "mime-types": "^2.1.35",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "socket.io": "^4.5.1",
+    "sqlite": "^4.1.1",
+    "sqlite3": "^5.0.8",
     "toml": "^3.0.0",
+    "uuid": "^8.3.2",
     "winston": "^3.7.2",
     "yaml": "^2.1.1"
   },
   "devDependencies": {
+    "@types/args": "^5.0.0",
+    "@types/copyfiles": "^2.4.1",
+    "@types/cors": "^2.8.12",
+    "@types/cuid": "^2.0.1",
     "@types/eslint": "^8.4.2",
     "@types/express": "^4.17.13",
+    "@types/luxon": "^2.3.2",
+    "@types/marked": "^4.0.3",
     "@types/mime-types": "^2.1.1",
     "@types/morgan": "^1.9.3",
+    "@types/multer": "^1.4.7",
     "@types/node": "^17.0.38",
     "@types/prettier": "^2.6.3",
+    "@types/sqlite3": "^3.1.8",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "@typescript-eslint/parser": "^5.27.0",
     "copyfiles": "^2.4.1",
     "eslint": "^8.16.0",
     "prettier": "^2.6.2",
     "typescript": "^4.7.2"
-  },
-  "packageManager": "yarn@3.2.1"
+  }
 }

@@ -1,0 +1,74 @@
+<div class='controls'>
+  <a id='copy-btn' href='javascript:void(0)' data-clipboard-text=''>copy</a>
+  <a id='copy-url-btn' href='javascript:void(0)' data-clipboard-text=''>copy url</a>
+</div>
+<div>
+  <label for='scratchpad'>Scratchpad</label>
+  <textarea
+  id='scratchpad'
+  rows='35'
+  ></textarea>
+</div>
+<script
+  src='https://cdn.socket.io/4.5.0/socket.io.min.js'
+  integrity='sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k'
+  crossorigin='anonymous'
+></script>
+<script
+  src='https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js'
+></script>
+<script>
+  const debounce = (callback, wait) => {
+    let timeoutId = null;
+    return (...args) => {
+      window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(() => {
+        callback.apply(null, args);
+      }, wait);
+    };
+  }
+
+  const scratchpad = document.querySelector('textarea');
+  const copyBtn = document.querySelector('#copy-btn');
+  const copyUrlBtn = document.querySelector('#copy-url-btn');
+  const socket = io();
+
+  const roomId = location.pathname.split('/').at(-1);
+
+  copyUrlBtn.setAttribute('data-clipboard-text', window.location.href);
+
+  socket.on('connect', () => {
+    console.log('connected');
+    socket.emit('join', roomId);
+
+    const onInputChange = debounce(ev => {
+      const message = ev.target.value;
+      copyBtn.setAttribute('data-clipboard-text', message);
+      socket.emit('scratchpad', message, roomId);
+    }, 500);
+
+    scratchpad.addEventListener('input', onInputChange);
+
+    socket.on('scratchpad', (message, id) => {
+      // avoid recursive updating
+      // socket.io should handle this but let's be safe
+      if(id === socket.id) return;
+
+      scratchpad.value = message;
+      copyBtn.setAttribute('data-clipboard-text', message);
+    });
+  })
+</script>
+<script>
+  const clipboard = new ClipboardJS("#copy-btn");
+  clipboard.on('success', e => {
+    const target = e.trigger; target.text = 'copied';
+    setTimeout(() => target.text = 'copy', 2000);
+  });
+
+  const urlClipboard = new ClipboardJS("#copy-url-btn");
+  urlClipboard.on('success', e => {
+    const target = e.trigger; target.text = 'copied';
+    setTimeout(() => target.text = 'copy url', 2000);
+  });
+</script>

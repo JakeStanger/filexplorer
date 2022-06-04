@@ -1,70 +1,94 @@
-import { Plugin, PluginManager } from '../../pluginManager.js';
+import { MiddlewarePlugin, PluginManager } from '../../pluginManager.js';
 import { getSystemPath, stat } from '../../utils.js';
 import { promises as fs } from 'fs';
-
-import Handlebars from 'handlebars';
+import { DateTime } from 'luxon';
 import path from 'path';
-import * as url from 'url';
+import { renderPage } from '../../layoutManager.js';
 
 interface IDirectoryListingConfig {
   showHidden?: boolean;
+  relativeDates?: boolean;
 }
 
-function getBreadcrumbs(path: string) {
-  const pathSplit = path.split('/').slice(1);
-  return pathSplit
-    .filter((c) => c)
-    .map((crumb, i) => ({
-      name: crumb,
-      url: '/' + pathSplit.slice(0, i + 1).join('/'),
-    }));
+interface IFileSystemObject {
+  name: string;
+  size: string;
+  isDirectory: boolean;
+  created: string;
+  modified: string;
 }
 
-const directoryListing: Plugin<'directoryListing', IDirectoryListingConfig> = async (
-  req,
-  res,
-  next,
-  config
-) => {
+function bytesToSize(bytes: number) {
+  const sizes = ['B', 'kB', 'MB', 'GB', 'TB'];
+  if (bytes == 0) return '0 Bytes';
+  const i = parseInt(String(Math.floor(Math.log(bytes) / Math.log(1000))));
+  return (bytes / Math.pow(1000, i)).toPrecision(3) + ' ' + sizes[i];
+}
+
+async function getDirectoryListings(
+  systemPath: string,
+  basePath: string,
+  config?: IDirectoryListingConfig
+): Promise<IFileSystemObject[]> {
+  const items = await fs.readdir(systemPath);
+  const relativeDates = config?.relativeDates !== false;
+
+  return await Promise.all(
+    items
+      .filter((item) => config?.showHidden || !item.startsWith('.'))
+      .map(async (p) => {
+        const pStat = await fs.lstat(path.join(systemPath, p));
+
+        const isDirectory = pStat.isDirectory();
+
+        const createdDate = DateTime.fromJSDate(pStat.birthtime);
+        const modifiedDate = DateTime.fromJSDate(pStat.mtime);
+
+        return {
+          name: p,
+          url: path.join(basePath, p),
+          size: !isDirectory ? bytesToSize(pStat.size) : '-',
+          created: relativeDates
+            ? (createdDate.toRelative() as string)
+            : createdDate.toLocaleString(DateTime.DATETIME_SHORT),
+          modified: relativeDates
+            ? (modifiedDate.toRelative() as string)
+            : modifiedDate.toLocaleString(DateTime.DATETIME_SHORT),
+          isDirectory,
+        };
+      })
+  ).then((items) =>
+    items.sort((a, b) => {
+      if (a.isDirectory && !b.isDirectory) return -1;
+      if (b.isDirectory && !a.isDirectory) return 1;
+
+      return a.name.localeCompare(b.name);
+    })
+  );
+}
+
+const directoryListing: MiddlewarePlugin<
+  'directoryListing',
+  IDirectoryListingConfig
+> = async ({ req, res, next, config }) => {
+  if (req.method !== 'GET') return next();
+
   const systemPath = getSystemPath(req, config);
 
   const isDir = await stat(systemPath).then((stat) => stat?.isDirectory());
 
   if (!isDir) return next();
 
-  const breadcrumbs = getBreadcrumbs(req.path);
-
-  const items = await fs
-    .readdir(systemPath)
-    .then((items) =>
-      items
-        .filter((item) => config.directoryListing?.showHidden || !item.startsWith('.'))
-        .map((i) => ({ name: i, url: path.join(req.path, i) }))
-    );
-
-  const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-
-  // TODO: Move
-  const layout = await fs.readFile('templates/layout.hbs', 'utf-8');
-  const layoutTemplate = Handlebars.compile(layout);
-
-  const headTemplateContent = await fs.readFile(
-    path.join(__dirname, 'head.hbs'),
-    'utf-8'
+  const items = await getDirectoryListings(
+    systemPath,
+    req.path,
+    config.directoryListing
   );
-  const head = Handlebars.compile(headTemplateContent)({});
 
-  const contentTemplate = await fs.readFile(
-    path.join(__dirname, 'content.hbs'),
-    'utf-8'
-  );
-  const template = Handlebars.compile(contentTemplate);
-
-  const content = template({ items, breadcrumbs });
-  const page = layoutTemplate({ head, content });
+  const page = await renderPage('directoryListing', req.path, { items });
 
   res.contentType('html');
   res.send(page);
 };
 
-PluginManager.get().registerMiddleware(directoryListing, 'directoryListing');
+PluginManager.register('directoryListing').withMiddleware(directoryListing);

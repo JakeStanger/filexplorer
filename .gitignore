@@ -2,7 +2,6 @@
 
 # dependencies
 /node_modules
-lambda/node_modules
 
 /.pnp
 .pnp.js
@@ -10,14 +9,12 @@ lambda/node_modules
 # testing
 /coverage
 
-# next.js
-/.next/
-
 # production
 /build
 /public/sitemap.xml
 /lambda/lib
 /lambda/function.zip
+/lib
 
 # misc
 .DS_Store
@@ -30,7 +27,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Sentry
-.sentryclirc
-
 *.load
+*.db
+
+/config.*

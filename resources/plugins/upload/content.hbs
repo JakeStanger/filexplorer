@@ -1,0 +1,21 @@
+<form action='#'>
+  <label for='file'>Select file</label>
+  <input type='file' id='file' name='file'>
+  <input type='submit' value='Upload'>
+</form>
+<script>
+  document.querySelector('form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const file = document.querySelector('#file').files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const url = await fetch(window.location.pathname, {
+      method: 'POST',
+      body: formData
+    }).then(r => r.text());
+
+    window.location.href = url;
+  })
+</script>

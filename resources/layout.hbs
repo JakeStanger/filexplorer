@@ -1,0 +1,32 @@
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/_/index.css' />
+    {{{head}}}
+  </head>
+  <body>
+    <div id='content'>
+      <ul class='navbar'>
+        <li>
+          <a href='/'>files</a>
+        </li>
+        <li>
+          <a href='/_/'>apps</a>
+        </li>
+      </ul>
+      <ul class='breadcrumbs'>
+        <li>
+          <a href='/'>/</a>
+        </li>
+        {{#each breadcrumbs}}
+          <li>
+            <a href='{{url}}'>{{name}}</a>
+          </li>
+        {{/each}}
+      </ul>
+      {{{content}}}
+    </div>
+  </body>
+</html>

@@ -1,8 +1,6 @@
 import { createLogger, format, transports } from 'winston';
 import morgan from 'morgan';
 
-type LogLevel = 'debug' | 'info' | 'warn' | 'error';
-
 const loggerFormat = format.printf(({ level, message, label, timestamp }) => {
   // quick and dirty pretty format from ISO
   timestamp = timestamp?.split('.')[0].replace('T', ' ');
@@ -29,6 +27,10 @@ export const httpLogger = morgan('short', {
     },
   },
 });
+
+export function debug(message: string, label: string) {
+  logger.log({ message: message.trim(), label, level: 'debug' });
+}
 
 export function info(message: string, label: string) {
   logger.log({ message: message.trim(), label, level: 'info' });

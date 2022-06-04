@@ -1,5 +1,0 @@
-{
-  port = 5202
-  serveDirectory = "."
-  directoryListing.showHidden = false
-}

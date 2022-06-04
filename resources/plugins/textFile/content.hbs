@@ -1,0 +1,19 @@
+<div class='controls'>
+  <a href='?raw'>raw</a>
+  <a href='?download'>download</a>
+  <a id='copy-btn' href='#' data-clipboard-text='{{{contentRaw}}}'>copy</a>
+</div>
+<div>
+  <!-- it's important this remains on a single line to keep the indentation correct! -->
+  <pre><code class='hljs'>{{{content}}}</code></pre>
+</div>
+<script
+  src='https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js'
+></script>
+<script>
+  const clipboard = new ClipboardJS("#copy-btn");
+  clipboard.on('success', e => {
+    const target = e.trigger; target.text = 'copied';
+    setTimeout(() => target.text = 'copy', 2000);
+  })
+</script>
