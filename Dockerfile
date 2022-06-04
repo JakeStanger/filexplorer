@@ -16,6 +16,6 @@ RUN yarn build
 
 RUN mkdir -p /srv/http
 
-EXPOSE 5202
+EXPOSE 5000
 
 ENTRYPOINT ["yarn", "start"]
