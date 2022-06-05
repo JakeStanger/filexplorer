@@ -16,7 +16,7 @@ interface BasePluginParams<
   TConfig = Record<string, unknown>
 > {
   io: Server;
-  db: Database;
+  db?: Database;
   config: PluginConfig<TName, TConfig>;
 }
 

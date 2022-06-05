@@ -43,7 +43,7 @@ const onScratchpadConnection: WebsocketPlugin<'scratchpad'> = async ({
 }) => {
   socket.on('join', async (roomId: string) => {
     await socket.join(roomId);
-    const row = await db.get(queries.select(roomId));
+    const row = await db?.get(queries.select(roomId));
     if (row) {
       io.to(roomId).emit('scratchpad', row.message, null);
     }
@@ -52,7 +52,7 @@ const onScratchpadConnection: WebsocketPlugin<'scratchpad'> = async ({
   socket.on('scratchpad', async (message, roomId) => {
     if (!roomId) return;
     socket.to(roomId).emit('scratchpad', message, socket.id);
-    await db.exec(queries.upsert(roomId, message));
+    await db?.exec(queries.upsert(roomId, message));
   });
 };
 
