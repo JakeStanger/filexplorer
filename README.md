@@ -56,6 +56,8 @@ yarn add filexplorer
 
 The package also includes a CLI which can be used for impromptu serving:
 
+Note the CLI does not load the `appListing`, `upload`, or `scratchpad` plugins by default.
+
 ```
 λ fe help
   Usage: fe [options] [command]

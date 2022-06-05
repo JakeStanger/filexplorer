@@ -50,7 +50,7 @@ export class App {
 
     // only serve html for browsers
     router.use((req, res, next) => {
-      if(!req.accepts().includes('text/html')) {
+      if (!req.accepts().includes('text/html')) {
         return express.static(config.serveDirectory)(req, res, next);
       }
 
@@ -59,20 +59,25 @@ export class App {
 
     appRouter.use(express.static(path.join(App.basePath, 'public')));
 
-    const db = await open({
-      filename: config.databasePath,
-      driver: sqlite3.cached.Database,
-    });
-
     App.server = server;
     App.app = app;
     App.router = router;
     App.appRouter = appRouter;
     App.io = io;
     App.config = config;
-    App.db = db;
 
     await PluginManager._loadPlugins();
+
+    let db: Database | undefined = undefined;
+
+    // only open database if it's in use
+    if (Object.keys(PluginManager._dbTables).length) {
+      db = await open({
+        filename: config.databasePath,
+        driver: sqlite3.cached.Database,
+      });
+      App.db = db;
+    }
 
     await Promise.all(
       Object.keys(PluginManager._initEvents).map(async (plugin) => {
@@ -87,7 +92,7 @@ export class App {
 
     // synchronous, don't want to cause db problems
     for (const table of Object.keys(PluginManager._dbTables)) {
-      await db.exec(PluginManager._dbTables[table]);
+      await db?.exec(PluginManager._dbTables[table]);
       debug(`Ensured table ${table} exists in database`, 'Init');
     }
 

@@ -91,7 +91,7 @@ const post: MiddlewarePlugin<'upload', IUploadConfig> = async ({
     config.upload?.authorization &&
     req.headers.authorization !== config.upload.authorization
   ) {
-    res.status(403).send('Unauthorized');
+    res.status(401).send('Unauthorized');
     return;
   }
 

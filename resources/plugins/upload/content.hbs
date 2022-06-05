@@ -21,8 +21,15 @@
         Authorization: document.querySelector('#auth').value
       },
       body: formData
-    }).then(r => r.text());
+    }).then(r => {
+      if(r.status === 401) alert('Unauthorized');
+      else if(r.status === 500) alert('Unknown server error');
+      else return r.text();
+    });
 
-    window.location.href = url;
+    if(url) {
+      window.location.href = url;
+    }
+
   })
 </script>
