@@ -17,6 +17,7 @@ The included plugins provide the following features:
 - Ability to upload files
 - Live scratchpad
 - Breadcrumb navigation
+- Non-browser clients are always served raw files
 
 For more information, please read about each of the plugins below.
 

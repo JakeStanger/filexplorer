@@ -48,6 +48,15 @@ export class App {
     app.use(baseUrl, router);
     router.use('/_', appRouter);
 
+    // only serve html for browsers
+    router.use((req, res, next) => {
+      if(!req.accepts().includes('text/html')) {
+        return express.static(config.serveDirectory)(req, res, next);
+      }
+
+      return next();
+    });
+
     appRouter.use(express.static(path.join(App.basePath, 'public')));
 
     const db = await open({
