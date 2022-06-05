@@ -1,11 +1,14 @@
 {
   "name": "filexplorer",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "main": "index.js",
   "license": "MIT",
   "type": "module",
   "bin": {
     "fe": "./lib/cli.js"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "files": [
     "public",
