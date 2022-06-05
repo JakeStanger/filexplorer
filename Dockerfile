@@ -7,7 +7,7 @@ ENV PORT=5000
 ENV DATABASE_PATH=/data.db
 ENV SERVE_DIRECTORY=/srv/http
 
-WORKDIR /opt/filebrowser
+WORKDIR /opt/filexplorer
 COPY ./package.json package.json
 COPY ./yarn.lock yarn.lock
 RUN yarn install --frozen-lockfile
