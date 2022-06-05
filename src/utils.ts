@@ -47,3 +47,10 @@ export async function readFileFromPath(
 
   return await fs.readFile(systemPath);
 }
+
+export function getHighlightTheme(config?: {highlightTheme?: string, highlightThemeDark?: string}) {
+  return {
+    dark: config?.highlightThemeDark || 'dark',
+    light: config?.highlightTheme || 'default'
+  }
+}

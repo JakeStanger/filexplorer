@@ -1,7 +1,15 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/{{highlightTheme}}.min.css">
 <style>
   .controls {
     display: flex;
     gap: 1em;
   }
 </style>
+<script>
+  const darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const highlightSheet = document.createElement('link');
+  highlightSheet.rel = 'stylesheet';
+
+  highlightSheet.href = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/${darkMode ? '{{highlightTheme.dark}}' : '{{highlightTheme.light}}'}.min.css`;
+
+  document.head.append(highlightSheet);
+</script>

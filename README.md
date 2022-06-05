@@ -17,6 +17,7 @@ The included plugins provide the following features:
 - Ability to upload files
 - Live scratchpad
 - Breadcrumb navigation
+- Dark mode
 - Non-browser clients are always served raw files
 
 For more information, please read about each of the plugins below.
@@ -78,7 +79,7 @@ A docker image is available and can be run like so:
 docker run \
   -p 5000:5000 \
   -v config.corn:/opt/filexplorer/config.corn \ # Passing a config is optional
-  -v data.db:/data.db \
+  -v data.db:/data.db \ # necessary to persist plugin data
   -v path/to/files:/srv/http \
   jakestanger/filexplorer
 ```

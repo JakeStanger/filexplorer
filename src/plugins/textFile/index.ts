@@ -1,5 +1,5 @@
 import { MiddlewarePlugin, PluginManager } from '../../pluginManager.js';
-import { getSystemPath, readFileFromPath, stat } from '../../utils.js';
+import { getHighlightTheme, getSystemPath, readFileFromPath, stat } from '../../utils.js';
 import hljs from 'highlight.js';
 import { renderPage } from '../../layoutManager.js';
 import path from 'path';
@@ -7,6 +7,7 @@ import { isBinary } from 'istextorbinary';
 
 interface IFileConfig {
   highlightTheme?: string;
+  highlightThemeDark?: string;
   autoHighlight?: boolean;
   maxHighlightKb?: number;
   handleSvg?: boolean;
@@ -53,7 +54,7 @@ const file: MiddlewarePlugin<'textFile', IFileConfig> = async ({
       : contents;
   }
 
-  const highlightTheme = config.textFile?.highlightTheme ?? 'default';
+  const highlightTheme = getHighlightTheme(config.textFile);
 
   const page = await renderPage(
     'textFile',

@@ -1,6 +1,17 @@
 :root {
   --color-primary: #e7e2d8;
+  --color-background: #fff;
+  --color-text: #222;
   --color-link: #254be7;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary: #2f2e2c;
+    --color-background: #222;
+    --color-text: #fff;
+    --color-link: #98b6ff;
+  }
 }
 
 *, *::before, *::after {
@@ -9,6 +20,7 @@
 
 body {
   background-color: var(--color-primary);
+  color: var(--color-text);
 }
 
 a {
@@ -40,6 +52,11 @@ blockquote {
   border-left: 6px solid var(--color-primary);
 }
 
+textarea {
+  background-color: var(--color-background);
+  color: var(--color-text)
+}
+
 .navbar {
   display: flex;
   gap: 20px;
@@ -66,7 +83,7 @@ blockquote {
 }
 
 #content {
-  background-color: white;
+  background-color: var(--color-background);
   padding: 1em 3em 3em;
   margin: 3em auto;
   max-width: 1200px;

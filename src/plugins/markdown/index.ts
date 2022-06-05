@@ -1,17 +1,18 @@
 import {
   InitEvent,
   MiddlewarePlugin,
-  PluginManager,
+  PluginManager
 } from '../../pluginManager.js';
-import { readFile } from '../../utils.js';
+import { getHighlightTheme, readFile } from '../../utils.js';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
 import { renderPage } from '../../layoutManager.js';
 
 interface IMarkdownConfig {
-  highlight: boolean;
-  highlightTheme: boolean;
-  gfm: boolean;
+  highlight?: boolean;
+  highlightTheme: string;
+  highlightThemeDark?: string;
+  gfm?: boolean;
 }
 
 const init: InitEvent<'markdown', IMarkdownConfig> = async ({ config }) => {
@@ -54,7 +55,7 @@ const markdown: MiddlewarePlugin<'markdown', IMarkdownConfig> = async ({
 
   const html = marked.parse(contents.toString());
 
-  const highlightTheme = config.markdown?.highlightTheme ?? 'default';
+  const highlightTheme = getHighlightTheme(config.markdown);
 
   const page = await renderPage(
     'markdown',
