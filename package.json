@@ -17,7 +17,8 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "tsc",
-    "start": "node --experimental-wasm-modules --experimental-import-meta-resolve lib"
+    "start": "node --experimental-wasm-modules --experimental-import-meta-resolve lib",
+    "prepublishOnly": "yarn build"
   },
   "dependencies": {
     "args": "^5.0.3",
