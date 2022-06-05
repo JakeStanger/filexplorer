@@ -316,3 +316,9 @@ Ensure your package has a `main` entrypoint set in the `package.json`.
 Handlebars templates should be placed in the `resources/plugins` folder in the root of your package.
 
 To load separate-package plugins, add the plugin package name to the `plugins` config option.
+
+### Theming
+
+The app makes use of modern CSS features like custom properties to make theming as easy as possible.
+To make global CSS changes, apply these in `public/index.css`. 
+For plugin-specific changes, these should be placed in the appropriate `head.hbs` template.
