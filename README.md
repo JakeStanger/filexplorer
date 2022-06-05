@@ -219,7 +219,7 @@ For example to upload using `cURL`:
 curl -F "file=@Pictures/Cake.png" -H "Authorization: 1234" http://localhost:5000
 ```
 
-![Upload plugin web interface showing an image selected](.github/images/upload.png)
+![Upload plugin web interface](.github/images/upload.png)
 
 | Name            | Type                                                | Default | Description                                                                       |
 |-----------------|-----------------------------------------------------|---------|-----------------------------------------------------------------------------------|
