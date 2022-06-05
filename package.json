@@ -1,6 +1,6 @@
 {
   "name": "filexplorer",
-  "version": "2.2.1",
+  "version": "2.2.3",
   "main": "index.js",
   "license": "MIT",
   "type": "module",
