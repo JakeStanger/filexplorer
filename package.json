@@ -33,7 +33,7 @@
     "handlebars": "^4.7.7",
     "highlight.js": "^11.5.1",
     "istextorbinary": "^6.0.0",
-    "luxon": "^2.4.0",
+    "luxon": "^2.5.2",
     "marked": "^4.0.16",
     "mime-types": "^2.1.35",
     "morgan": "^1.10.0",
