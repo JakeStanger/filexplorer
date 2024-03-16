@@ -104,7 +104,8 @@ export class PluginManager implements IPluginManager {
 
       let success = false;
       for (const url of resolutions) {
-        const res = await import.meta.resolve?.(url).catch(() => null);
+        // typings seem to think this returns a promise, which is not true
+        const res = import.meta.resolve?.(url) as unknown as string | undefined;
         if (res) {
           await import(url);
 
