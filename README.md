@@ -1,6 +1,6 @@
 # Filexplorer
 
-A lightweight highly extensible, and highly configurable 
+A lightweight highly extensible, and highly configurable
 NodeJS web-based file explorer and utility kit.
 
 ## Included features
@@ -45,7 +45,7 @@ node --experimental-wasm-modules --experimental-import-meta-resolve lib
 
 ### NPM Package
 
-Filexplorer can be installed as an NPM package, 
+Filexplorer can be installed as an NPM package,
 which is useful if you plan to embed it or develop a plugin.
 
 ```bash
@@ -88,7 +88,7 @@ docker run \
 
 ## Configuration
 
-The app works out of the box without any configuration, 
+The app works out of the box without any configuration,
 and by default all plugins are enabled.
 
 To override the default configuration,
@@ -100,7 +100,7 @@ create a `config` file using one of the following supported formats:
 - `config.toml`
 - `config.corn` (useful for environment variables! see [here](https://github.com/jakestanger/corn#writing-corn))
 
-Plugins may provide their own configuration options, 
+Plugins may provide their own configuration options,
 which are namespaced under the plugin name.
 For example, the `showHidden` option for the `directoryListing` plugin
 should be set at `directoryListing.showHidden`.
@@ -125,7 +125,7 @@ The following environment variables are also respected and will override the con
 
 ### Example
 
-An example config file in yaml is shown below, 
+An example config file in yaml is shown below,
 overriding the port, serve directory and `directoryListing` plugin options.
 
 ```yaml
@@ -139,12 +139,12 @@ directoryListing:
 
 ## Included plugins
 
-The following plugins are 
+The following plugins are
 
 ### `directoryListing`
 
 Shows a table of files and folders inside a directory.
-Each row has a link to the item, file size, and created/modified dates. 
+Each row has a link to the item, file size, and created/modified dates.
 
 ![Directory listing plugin showing root of this repo](.github/images/directoryListing.png)
 
@@ -155,19 +155,20 @@ Each row has a link to the item, file size, and created/modified dates.
 
 ### `textFile`
 
-Shows the contents of plain text files in the web interface. 
+Shows the contents of plain text files in the web interface.
 Provides a link to the raw file (requires `raw`), a direct download, and the ability to copy to clipboard.
 
 The file is syntax highlighted using `highlight.js`.
 
 ![Text file plugin showing this package.json](.github/images/textFile.png)
 
-| Name             | Type    | Default   | Description                                                                                                                            |
-|------------------|---------|-----------|----------------------------------------------------------------------------------------------------------------------------------------|
-| `highlightTheme` | string  | `default` | The highlight.js theme to use. See [here](https://github.com/highlightjs/highlight.js/tree/main/src/styles) for a list                 |
-| `autoHighlight`  | boolean | `false`   | Whether highlight.js should try to automatically detect syntax highlighting if the language could not be determined from the extension |
-| `maxHighlightKb` | number  | `50`      | The maximum file size in kB that should be highlighted                                                                                 |
-| `handleSvg`      | boolean | `false`   | Whether SVGs should be handled as text                                                                                                 |
+| Name                 | Type    | Default   | Description                                                                                                                            |
+|----------------------|---------|-----------|----------------------------------------------------------------------------------------------------------------------------------------|
+| `highlightTheme`     | string  | `default` | The highlight.js theme to use for light mode. See [here](https://github.com/highlightjs/highlight.js/tree/main/src/styles) for a list  |
+| `highlightThemeDark` | string  | `dark`    | The highlight.js theme to use for dark mode. See [here](https://github.com/highlightjs/highlight.js/tree/main/src/styles) for a list   |
+| `autoHighlight`      | boolean | `false`   | Whether highlight.js should try to automatically detect syntax highlighting if the language could not be determined from the extension |
+| `maxHighlightKb`     | number  | `50`      | The maximum file size in kB that should be highlighted                                                                                 |
+| `handleSvg`          | boolean | `false`   | Whether SVGs should be handled as text                                                                                                 |
 
 ### `mediaFile`
 
@@ -186,11 +187,12 @@ Renders markdown files in the web interface. Supports GFM and syntax highlightin
 
 ![Markdown plugin showing this readme](.github/images/markdown.png)
 
-| Name             | Type    | Default   | Description                                                                                                            |
-|------------------|---------|-----------|------------------------------------------------------------------------------------------------------------------------|
-| `highlight`      | boolean | `true`    | Whether code blocks should be highlighted                                                                              |
-| `highlightTheme` | string  | `default` | The highlight.js theme to use. See [here](https://github.com/highlightjs/highlight.js/tree/main/src/styles) for a list |
-| `gfm`            | boolean | `true`    | Whether to use Github Flavored Markdown                                                                                |
+| Name                 | Type    | Default   | Description                                                                                                                           |
+|----------------------|---------|-----------|---------------------------------------------------------------------------------------------------------------------------------------|
+| `highlight`          | boolean | `true`    | Whether code blocks should be highlighted                                                                                             |
+| `highlightTheme`     | string  | `default` | The highlight.js theme to use for light mode. See [here](https://github.com/highlightjs/highlight.js/tree/main/src/styles) for a list |
+| `highlightThemeDark` | string  | `dark`    | The highlight.js theme to use for dark mode. See [here](https://github.com/highlightjs/highlight.js/tree/main/src/styles) for a list  |
+| `gfm`                | boolean | `true`    | Whether to use Github Flavored Markdown                                                                                               |
 
 ### `raw`
 
@@ -218,6 +220,7 @@ Provides the ability to upload files. This can be done programmatically or via t
 Files are automatically given random names according to a chosen scheme.
 
 For example to upload using `cURL`:
+
 ```bash
 curl -F "file=@Pictures/Cake.png" -H "Authorization: 1234" http://localhost:5000
 ```
@@ -234,8 +237,8 @@ curl -F "file=@Pictures/Cake.png" -H "Authorization: 1234" http://localhost:5000
 ### `scratchpad`
 
 > App URL: `/_/scratch`
- 
-Provides a live scratchpad which can be used for quickly sharing text. 
+
+Provides a live scratchpad which can be used for quickly sharing text.
 Any client with the same URL will see the same content and will see changes apply near-instantly.
 
 There are controls for instantly copying the scratchpad contents and URL.
@@ -288,7 +291,11 @@ const init: InitEvent<'example', IExampleConfig> = async ({ config }) => {
 
 // middleware can be used for handling files/directories
 // this is just express.js middleware under the hood
-const exampleMiddeware: MiddlewarePlugin<'example', IExampleConfig> = async ({ req, res, next }) => {
+const exampleMiddeware: MiddlewarePlugin<'example', IExampleConfig> = async ({
+                                                                               req,
+                                                                               res,
+                                                                               next
+                                                                             }) => {
   res.send('hello from example');
 };
 
@@ -303,7 +310,7 @@ Your plugin can be loaded by adding it to the `plugins` config option. More info
 
 #### Embedded
 
-Create a new folder in `src/plugins` that matches your plugin name. 
+Create a new folder in `src/plugins` that matches your plugin name.
 This folder *must* contain an `index.ts` (or `.js` or `.mts` or `.mjs`) file.
 
 Handlebars templates should be placed in the `resources/plugins` folder in the root of this repo.
@@ -322,5 +329,5 @@ To load separate-package plugins, add the plugin package name to the `plugins` c
 ### Theming
 
 The app makes use of modern CSS features like custom properties to make theming as easy as possible.
-To make global CSS changes, apply these in `public/index.css`. 
+To make global CSS changes, apply these in `public/index.css`.
 For plugin-specific changes, these should be placed in the appropriate `head.hbs` template.
