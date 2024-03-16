@@ -9,8 +9,8 @@ import { renderPage } from '../../layoutManager.js';
 const queries = {
   select: (roomId: string) =>
     `SELECT message FROM Scratchpad WHERE roomId='${roomId}'`,
-  upsert: (roomId: string, message: string) =>
-    `INSERT OR REPLACE INTO Scratchpad (roomId, message) VALUES ('${roomId}', '${message}')`,
+  upsert:
+    'INSERT OR REPLACE INTO Scratchpad (roomId, message) VALUES (?, ?)',
 };
 
 const scratchpadRedirect: MiddlewarePlugin<'scratchpad'> = async ({ res }) => {
@@ -52,7 +52,7 @@ const onScratchpadConnection: WebsocketPlugin<'scratchpad'> = async ({
   socket.on('scratchpad', async (message, roomId) => {
     if (!roomId) return;
     socket.to(roomId).emit('scratchpad', message, socket.id);
-    await db?.exec(queries.upsert(roomId, message));
+    await db?.exec(queries.upsert, roomId, message);
   });
 };
 
