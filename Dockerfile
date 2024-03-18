@@ -19,3 +19,5 @@ RUN mkdir -p /srv/http
 EXPOSE 5000
 
 ENTRYPOINT ["yarn", "start"]
+
+HEALTHCHECK CMD curl http://localhost:$PORT || exit 1
