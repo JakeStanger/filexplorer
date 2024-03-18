@@ -1,6 +1,6 @@
 FROM node:18-alpine3.15
 
-RUN apk --no-cache upgrade && apk add yarn
+RUN apk --no-cache upgrade && apk add yarn curl
 
 ENV HOSTNAME=0.0.0.0
 ENV PORT=5000
@@ -20,4 +20,4 @@ EXPOSE 5000
 
 ENTRYPOINT ["yarn", "start"]
 
-HEALTHCHECK CMD curl http://localhost:$PORT || exit 1
+HEALTHCHECK CMD curl http://localhost:$PORT > /dev/null || exit 1
