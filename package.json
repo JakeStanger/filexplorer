@@ -37,7 +37,7 @@
     "luxon": "^2.5.2",
     "marked": "^4.0.16",
     "mime-types": "^2.1.35",
-    "morgan": "^1.10.0",
+    "morgan": "^1.11.0",
     "multer": "^2.2.0",
     "socket.io": "^4.6.2",
     "sqlite": "^4.1.1",
